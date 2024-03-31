@@ -1,4 +1,6 @@
-function EvSet(view, nblocks, start=8192, victim=4096, assoc=16, stride=4096, offset=0) {
+import {stats, min, mean, median, mode, variance, std, optimizationStatusToString} from './utils.js'
+
+export function EvSet(view, nblocks, start=8192, victim=4096, assoc=16, stride=4096, offset=0) {
 
 	const RAND = true;
 
@@ -157,7 +159,10 @@ function EvSet(view, nblocks, start=8192, victim=4096, assoc=16, stride=4096, of
 				// break;
 			}
 		}
-		first = true;
+		var first = true;
 	}
 	/* end-of-public */
-}
+};
+
+// module.exports = {EvSet};
+// exports.EvSet=EvSet;

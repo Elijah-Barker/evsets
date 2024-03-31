@@ -1,0 +1,16 @@
+{
+  "name": "browser",
+  "version": "1.0.0",
+  "description": "We implement the threshold group testing based reduction in JS and Wasm for efficiently finding eviction sets of minimal size. For more details check our paper.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type":"module",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {}
+}

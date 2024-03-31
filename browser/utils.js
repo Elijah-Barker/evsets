@@ -1,5 +1,5 @@
 // Statistics
-function stats(data) {
+export function stats(data) {
     return {
         'min' : Math.min.apply(0, data),
         'max' : Math.max.apply(0, data),
@@ -13,20 +13,20 @@ function stats(data) {
     };
 }
 
-function min(arr) {
+export function min(arr) {
 	return Math.min.apply(0, arr);
 }
 
-function mean(arr) {
+export function mean(arr) {
         return arr.reduce((a,b) => a+b) / arr.length;
 }
 
-function median(arr) {
+export function median(arr) {
         arr.sort((a,b) => a-b);
         return (arr.length % 2) ? arr[(arr.length / 2) | 0] : mean([arr[arr.length/2 - 1], arr[arr.length / 2]]);
 }
 
-function mode(arr) {
+export function mode(arr) {
         var counter = {};
         var mode = [];
         var max = 0;
@@ -45,12 +45,12 @@ function mode(arr) {
         return mode;
 }
 
-function variance(arr) {
+export function variance(arr) {
     var x = mean(arr);
     return arr.reduce((pre, cur) => pre + ((cur - x)**2)) / (arr.length - 1);
 }
 
-function std(arr) {
+export function std(arr) {
     return Math.sqrt(variance(arr));
 }
 
@@ -79,10 +79,10 @@ Object.defineProperty(Array.prototype, 'chunk', {
 });
 
 // OptimizationStatus
-function optimizationStatusToString(status) {
-/* from https://github.com/v8/v8/blob/master/src/runtime/runtime.h */
+export function optimizationStatusToString(status) {
+//* from https://github.com/v8/v8/blob/master/src/runtime/runtime.h */
 	let o = [];
-	if (status & (1<<0)) o.push('kIsFunction');
+	if (status & (1<<0)) o.push('kIsfunction');
 	if (status & (1<<1)) o.push('kNeverOptimize');
 	if (status & (1<<2)) o.push('kAlwaysOptimize');
 	if (status & (1<<3)) o.push('kMaybeDeopted');
