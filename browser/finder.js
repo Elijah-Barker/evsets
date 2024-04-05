@@ -107,7 +107,7 @@ Object.defineProperty(Array.prototype, 'chunk', {
 export function optimizationStatusToString(status) {
 //* from https://github.com/v8/v8/blob/master/src/runtime/runtime.h */
 	let o = [];
-	if (status & (1<<0)) o.push('kIsfunction');
+	if (status & (1<<0)) o.push('kIsFunction');
 	if (status & (1<<1)) o.push('kNeverOptimize');
 	if (status & (1<<2)) o.push('kAlwaysOptimize');
 	if (status & (1<<3)) o.push('kMaybeDeopted');
@@ -389,6 +389,7 @@ function cb(instance, evset, findall) {
 			for (let i=0; i<REP; i++) {
 				t = wasm_hit(vic);
 				total.push(Number(t));
+				log("wasm_hit", t);
 			}
 			return total;
 		},
@@ -397,6 +398,7 @@ function cb(instance, evset, findall) {
 			for (let i=0; i<REP; i++) {
 				t = wasm_miss(vic, ptr);
 				total.push(Number(t));
+				log("wasm_miss", t);
 			}
 			return total;
 		}
