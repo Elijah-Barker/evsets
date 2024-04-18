@@ -336,6 +336,8 @@ var onmessage = async function start(evt) {
 		{
 			next = CONFLICT;
 		}
+		let {wasm_hit, wasm_miss, wasm_timer} = instance.exports;
+		log('wasm_timer() => ' + wasm_timer());
 	} while (CONFLICT && evset.vics.length > 0 && evset.refs.length > ASSOC);
 
 	log('Found ' + RESULTS.length + ' different eviction sets');
