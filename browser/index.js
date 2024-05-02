@@ -25,6 +25,8 @@ async function start(config) {
 	// Shared memory
 	const memory = new WebAssembly.Memory({initial: SZ, maximum: SZ, shared: true});
 
+	// log(memory.buffer); // It is in fact a SharedArrayBuffer
+	
 	// const resp = fs.readFileSync(__dirname + '/clock.wasm');
 	// const module = await WebAssembly.instantiate(new Uint8Array(resp)).
 	// 	then (res => res.instance.exports);
@@ -37,13 +39,52 @@ async function start(config) {
 	
 	// console.log("Got here 1");
 	const clock = new Worker('./wasmWorker.js');
+	clock.on("message", (evt) => {
+		let msg = evt.message.data;
+		switch (msg.type) {
+			case 'log':
+				log (...msg.str);
+				// msg.str.map(e => DebugPrint(e)); // used for verification
+				break;
+			case 'eof':
+				clock.terminate();
+				finder.terminate();
+				var dv = new DataView(memory.buffer);
+				// for(var i=0; i<2050; i+=4)
+				// {
+				// 	log(i/4+' '+dv.getUint32(i, true));
+				// }
+				var i=256;
+				log(i+' '+dv.getUint32(i, true));
+			default:
+		}
+	});
 	clock.postMessage({"data":{"module1": module1, "memory": memory}});
-
-	// console.log("Got here 2");
+	console.log("Got here 2");
 	// Finder thread
 	// const resp2 = await fetch('poc.wasm');
 	// const bin2 = await resp2.arrayBuffer();
 	// const module2 = new WebAssembly.Module(bin2);
+
+	var dv = new DataView(memory.buffer);
+	// for(var i=0; i<2050; i+=4)
+	// {
+	// 	log(i/4+' '+dv.getUint32(i, true));
+	// }
+	var i=256;
+	var clockVal;
+	while (true){
+		clockVal = dv.getUint32(i, true);
+		if (clockVal > 0)
+		{
+			log(i+' '+clockVal);
+		}
+		if (clockVal > 100000)
+		{
+			break;
+		}
+	}
+
 	const module2 = new WebAssembly.Module(fs.readFileSync('./poc.wasm'));
 	const finder = new Worker('./finder.js');
 	
@@ -58,12 +99,19 @@ async function start(config) {
 			case 'eof':
 				clock.terminate();
 				finder.terminate();
+				var dv = new DataView(memory.buffer);
+				// for(var i=0; i<2050; i+=4)
+				// {
+				// 	log(i/4+' '+dv.getUint32(i, true));
+				// }
+				var i=256;
+				log(i+' '+dv.getUint32(i, true));
 			default:
 		}
 	});
 	finder.postMessage({"data":{"module1": module2, "memory": memory, "conf": config}});
 	
-	// console.log("Got here 4");
+	console.log("Got here 4");
 	return false;
 }
 

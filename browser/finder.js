@@ -310,7 +310,7 @@ var onmessage = async function start(evt) {
 	const instance = new WebAssembly.Instance(module1, {env: {mem: memory}});
 	// Memory view
 	const view = new DataView(memory.buffer);
-
+	if (VERBOSE) log(evt.data.conf);
 	if (!NOLOG) log('Prepare new evset');
 	const evset = new EvSet(view, B, P*2, P, ASSOC, STRIDE, OFFSET);
 	first = true, next = CONFLICT;
